@@ -1,0 +1,19 @@
+@import 'bootstrap';
+
+.menu {
+    .list-group-item {
+        cursor: pointer;
+        a {
+            color: #222 !important;
+            text-decoration: none;
+        }
+
+        &.active a {
+            color: white !important;
+        }
+    }
+}
+
+.form-group {
+    margin: 10px 0;
+}
