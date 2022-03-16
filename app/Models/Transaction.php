@@ -12,6 +12,7 @@ class Transaction extends Model
     // Cette contante liste les differents statuts possible pour une transaction (demande)
     public const STATUTS = ['ACCEPTE','REJETE','ATTENTE'];
     public const TYPES = ['ENTREE','SORTIE'];
+    protected $guarded = [];
 
     public function user (): BelongsTo
     { return $this->belongsTo(User::class, 'created_by'); }

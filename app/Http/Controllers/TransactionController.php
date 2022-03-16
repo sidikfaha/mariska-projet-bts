@@ -2,84 +2,31 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\transaction;
+use App\Models\Transaction;
+use App\Models\User;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 
 class TransactionController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+
+    public function create(): Factory|View|Application
     {
-        //
+        return view('transactions.ajouter');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function store(Request $request): RedirectResponse
     {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\transaction  $transaction
-     * @return \Illuminate\Http\Response
-     */
-    public function show(transaction $transaction)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\transaction  $transaction
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(transaction $transaction)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\transaction  $transaction
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, transaction $transaction)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\transaction  $transaction
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(transaction $transaction)
-    {
-        //
+        $attrs = $request->except('_token');
+        $attrs['created_by'] = $request->user()->id;
+        $user = Transaction::query()->create($attrs);
+        $user->save();
+        Session::flash('created');
+        return back();
     }
 }

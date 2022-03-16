@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -19,5 +20,13 @@ use Illuminate\Support\Facades\Route;
 Auth::routes();
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
+
 Route::get('/users', [HomeController::class, 'users'])->name('users');
 Route::get('/users/add', [UserController::class, 'create'])->name('users.add');
+Route::get('/demandes', [HomeController::class, 'demandes'])->name('trans');
+Route::get('/demandes/add', [TransactionController::class, 'create'])->name('trans.add');
+
+Route::prefix('action')->group(function () {
+    Route::post('users', [UserController::class, 'store'])->name('users.create');
+    Route::post('trans', [TransactionController::class, 'store'])->name('trans.create');
+});

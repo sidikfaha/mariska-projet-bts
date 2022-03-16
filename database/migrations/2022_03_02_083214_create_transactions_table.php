@@ -17,7 +17,7 @@ return new class extends Migration
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
             $table->enum('type', Transaction::TYPES);
-            $table->enum('statut', Transaction::STATUTS);
+            $table->enum('statut', Transaction::STATUTS)->default(Transaction::STATUTS[2]);
             $table->string('libelle');
             $table->text('description');
             $table->float('montant');
