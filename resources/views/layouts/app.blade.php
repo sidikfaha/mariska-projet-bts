@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'Automatisation') }}</title>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
@@ -20,6 +20,11 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    
+    <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
+
+
+
 </head>
 
 <body>
@@ -27,7 +32,7 @@
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
+                    {{ config('app.name', 'Automatisation') }}
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
@@ -37,9 +42,30 @@
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
+                    @Auth
                     <ul class="navbar-nav me-auto">
+                    
+                               @if (Auth::user() && Auth::user()->role === 'ADMIN')
+                                <li class="nav-item">
+                                    <a class="nav-link {{Route::currentRouteName() === 'users' ? 'active' : ''}}" href="{{ route('users')  }}">Utilisateurs</a>
+                                </li>
+                                @endif
+                                <li class="nav-item">
+                                    <a class="nav-link {{Route::currentRouteName() === 'trans' ? 'active' : ''}}" href="{{ route('trans') }}">Mes demandes</a>
+                                </li>
 
+                                @if (Auth::user() && Auth::user()->role === 'ADMIN')
+                                <li class="nav-item">
+                                    <a class="nav-link {{Route::currentRouteName() === 'trans_admin' ? 'active' : ''}}" href="{{ route('trans_admin')  }}">
+                                        Administration
+                                    @if(isset($countTransactions) && $countTransactions  > 0)
+                                        <span class="badge bg-danger">{{$countTransactions}}</span>
+                                        @endif
+                                    </a>
+                                </li>
+                                @endif
                     </ul>
+                    @endauth
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ms-auto">
@@ -57,6 +83,7 @@
                                 </li>
                             @endif
                         @else
+                                
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                                     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
@@ -81,26 +108,12 @@
             </div>
         </nav>
 
-        <main class="py-4">
+        <main class="py-4 @yield('customMainClass')">
             <div class="container">
                 <div class="row justify-content-center">
 
-                    @if (request()->user())
-                        <div class="col">
-                            <div class="sticky-top">
-                                <div class="card">
-                                    <div class="card-header">Menu</div>
-                                    <div class="card-body">
-                                        @if (request()->user()->role === App\Models\User::ROLES[0])
-                                            @include('partials/menus/admin')
-                                        @endif
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    @endif
-
-                    <div class="col-md-8">
+                
+                    <div class="col-md-10 offset-md-1">
                         @yield('content')
                     </div>
                 </div>

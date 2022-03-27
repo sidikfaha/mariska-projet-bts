@@ -6,7 +6,7 @@
 
         <div class="card-body">
             <div class="py-3 d-flex justify-content-end">
-                <a role="button" href="{{ route('users.add')  }}" class="btn btn-success btn-lg">
+                <a role="button" href="{{ route('users.add')  }}" class="btn btn-success btn-sm">
                     <i class="bi-plus"></i>
                     Ajouter
                 </a>

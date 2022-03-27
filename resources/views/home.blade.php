@@ -10,7 +10,9 @@
                     {{ session('status') }}
                 </div>
             @endif
-            Vous êtes connecté.
+            @Auth
+              Bienvenue {{Auth::user()->name}}
+            @endauth
         </div>
     </div>
 @endsection

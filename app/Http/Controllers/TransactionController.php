@@ -24,9 +24,33 @@ class TransactionController extends Controller
     {
         $attrs = $request->except('_token');
         $attrs['created_by'] = $request->user()->id;
+
         $user = Transaction::query()->create($attrs);
         $user->save();
         Session::flash('created');
         return back();
+    }
+
+    public function update(Request $request): RedirectResponse
+    {
+
+        $rules = [
+            'status' => 'required|in:ACCEPTE,REJETE',
+            'transaction_id' => 'required|exists:transactions,id'
+        ];
+
+        $this->validate($request, $rules);
+
+        $status = $request->status;
+
+        $transaction = Transaction::find($request->transaction_id);
+
+        $transaction->update([
+            'statut' => $status
+        ]);
+
+        Session::flash('updated');
+        return back();
+    
     }
 }

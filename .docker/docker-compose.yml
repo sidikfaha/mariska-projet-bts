@@ -1,0 +1,37 @@
+version: '3'
+
+services:
+  app:
+    build:
+      context: ../
+    restart: always
+    container_name: mariska_aasf
+    networks:
+      - m_backend
+    ports:
+      - "8108:80"
+    environment:
+      HOST: 0.0.0.0
+    volumes:
+      - type: bind
+        source: ../storage
+        target: /app/storage
+
+  db:
+    container_name: mariska_db
+    image: mariadb:latest
+    environment:
+      MARIADB_USER: $DB_USER
+      MARIADB_PASSWORD: $DB_PASSWORD
+      MARIADB_DATABASE: $DB_NAME
+      MARIADB_ROOT_PASSWORD: $DB_PASSWORD
+    networks:
+      - m_backend
+    volumes:
+      - m_db_volume:/var/lib/mysql
+
+networks:
+  m_backend:
+
+volumes:
+  m_db_volume:

@@ -6,41 +6,15 @@
 
         <div class="card-body">
             <div class="py-3 d-flex justify-content-end">
-                <a role="button" href="{{ route('trans.add')  }}" class="btn btn-success btn-lg">
+                <div>
+                <a role="button" href="{{ route('trans.add')  }}" class="btn btn-sm btn-success">
                     <i class="bi-plus"></i>
                     Ajouter
                 </a>
+                </div>
+                
             </div>
-            <table class="table table-striped table-responsive">
-                <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>libelle</th>
-                    <th>Montant</th>
-                    <th>Type</th>
-                </tr>
-                </thead>
-                <tbody>
-                @if(count($trans) === 0)
-                    <tr>
-                        <td colspan="4">
-                            <div class="text-center">
-                                <div class="alert alert-info">Aucune demande pour le moment.</div>
-                            </div>
-                        </td>
-                    </tr>
-                @else
-                    @foreach($trans as $item)
-                        <tr>
-                            <td>{{ $item->id  }}</td>
-                            <td>{{ $item->libelle  }}</td>
-                            <td>{{ $item->montant  }}</td>
-                            <td>{{ $item->type  }}</td>
-                        </tr>
-                    @endforeach
-                @endif
-                </tbody>
-            </table>
+            @include('partials.table_transaction')
         </div>
     </div>
 @endsection

@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('customMainClass')
+  bg-auth
+@endsection
+
 @section('content')
 <div class="container">
     <div class="row justify-content-center">

@@ -44,8 +44,20 @@ class HomeController extends Controller
 
     public function demandes(): Factory|View|Application
     {
-        $trans = Transaction::query()->get();
-        return view('transactions.index', compact('trans'));
+        $trans = Transaction::where('created_by', request()->user()->id)->get();
+        return view('transactions.index')->with([
+            'trans' => $trans,
+            'is_admin' => false
+        ]);
+    }
+
+    public function adminTransactions(): Factory|View|Application
+    {
+        $trans = Transaction::all();
+        return view('transactions.admin_transactions')->with([
+            'trans' => $trans,
+            'is_admin' => true
+        ]);
     }
 
 }

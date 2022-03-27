@@ -1,0 +1,5 @@
+.bg-auth{
+    background-image: url('/images/connecter-nature.jpg');
+    background-size: contain;
+    height: 100vh;
+}
